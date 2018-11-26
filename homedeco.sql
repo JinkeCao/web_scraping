@@ -1,0 +1,9 @@
+create table jkcao.app_install_jiazhuang_20181122(dvc string, pn string, dt date);
+insert into table jkcao.app_install_jiazhuang_20181122
+select c.dvc, c.pn, c.dt
+from(
+    select dvc as dvc, b.package_name as pn, day_time as dt
+    from etl.idata_log 
+    lateral view explode(app_install) a as b
+    ) c
+where c.pn in ("com.to8to.housekeeper","com.qunhe.rendershow","com.woniu.user.activity","com.suryani.jiagallery","com.suryani.jiagallery.pro","com.lingduo.acorn","com.soufun.decoration.app","com.to8to.assistant.activity","com.izx.zxc","com.sohu.kuaizhan.z5504519840","com.qunhe.rendershow","com.xiuwojia.xiuwojia","com.tbs.tobosutype","com.apicloud.A6985865797348","com.ikongjian","com.slices.togo","com.tugou.business","com.gjj.user","com.guojiajia.activiy","com.nd.home.xingse","com.gjj.pm","com.gjj.pricetool","com.wise.zhuangxiuwang","com.sookin.zhuangxiuw","com.weihuishang.lightapp.arwfsg123","com.quickdogudien.qddxq","com.shangsuixing.jiazhuan","com.xiuwojia.xiuwojia","com.yzykj.cn.kdjjapp","com.zhuangxiu.quan","com.appbyme.app190834","com.zhuangxiu.shop","cn.zhui.client3628240","com.to8to.zxtyg","com.mazybox.home3D","com.huizhuang.zxsq","com.ss.android.homed","com.mobile.cloudcubic","com.dudumall_cia","com.nlnsnnn.roknlnknt","com.jddl.jiajuzs","pts.LianShang.jjzx537","com.h0086org.lj","com.longfa.measure","com.soufun.home","com.shjindun.aio","com.example.administrator.peidehaojiaju","com.zjxnjz.mall.android","com.jyall.xiaohongmao.app","com.shhejia.member","com.goldmantis.app.jia","com.sencatech.game.mantis","com.wj.wjapp","wojuw.com","com.vanlian.client","com.kenfor.client3g.wwwcderen","com.to8to.yibentong","com.jzjz.service","cn.jimi.application","com.homesir.homeservice","com.shownest.app","com.ghui123.associationassistant.decoration","com.misi.bushizhixu","com.zhejingkj.kedoujia","com.lifewzj","com.ezdaka.ygtool","com.jzjz.newservice","com.epweike.android.youqiwu","com.fuwo.ifuwo");
