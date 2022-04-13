@@ -1,0 +1,182 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jan 10 17:45:40 2022
+
+@author: jkcao
+
+
+"""
+# python C:\Users\jkcao\.spyder-py3\wiki_test.py
+
+import wikipedia
+from json import dump
+from time import sleep
+import opencc
+# import os
+# import urllib3
+
+def path_cleaner(path):
+    for c in r'<>/\|:*? ': path = path.replace(c, '_')
+    return path
+
+import ssl
+from functools import wraps
+def sslwrap(func):
+    @wraps(func)
+    def bar(*args, **kw):
+        kw['ssl_version'] = ssl.PROTOCOL_TLSv1
+        return func(*args, **kw)
+    return bar
+
+ssl.wrap_socket = sslwrap(ssl.wrap_socket)
+cc = opencc.OpenCC('t2s')
+wikipedia.set_lang("zh")
+
+
+# urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+# os.environ['CURL_CA_BUNDLE'] = ""
+# os.environ['PYTHONWARNINGS']="ignore:Unverified HTTPS request"
+# print(wikipedia.wikipedia.summary("Google"))
+
+for x in set([
+'约瑟夫 拜登'
+,'伊丽莎白 亚历山德拉 玛丽 温莎'
+,'玛丽 西蒙'
+,'戴维 约翰 赫尔利'
+,'辛迪 基罗'
+,'罗德里戈 杜特尔特'
+,'德仁'
+,'艾萨克 赫尔佐格'
+,'拉姆 纳特 科温德'
+,'弗拉基米尔 弗拉基米罗维奇 普京'
+,'弗拉基米尔 泽连斯基'
+,'埃马纽埃尔 马克龙'
+,'弗兰克 瓦尔特 施泰因迈尔'
+,'约瑟夫 拜登'
+,'鲍里斯 约翰逊'
+,'贾斯廷 特鲁多'
+,'斯科特 莫里森'
+,'杰辛达 阿德恩'
+,'罗德里戈 杜特尔特'
+,'岸田文雄'
+,'纳夫塔利 本内特'
+,'纳伦德拉 莫迪'
+,'米哈伊尔 米舒斯京'
+,'杰尼斯 什米加尔'
+,'让 卡斯泰'
+,'奥拉夫 朔尔茨'
+,'安东尼 布林肯'
+,'莉兹 特拉斯'
+,'梅拉妮 乔利'
+,'玛丽斯 佩恩'
+,'纳纳娅 马胡塔'
+,'特奥多罗 洛钦'
+,'茂木敏充'
+,'亚伊尔 拉皮德'
+,'苏杰生'
+,'谢尔盖 维克托罗维奇 拉夫罗夫'
+,'德米特罗 库列巴'
+,'罗贝尔 舒曼'
+,'安娜莱娜 贝尔伯克'
+,'威廉 约瑟夫 伯恩斯'
+,'理查德 摩尔'
+,'吉米 朱德'
+,'迈克 伯吉斯'
+,'沃伦 塔克'
+,'松野博一'
+,'大卫 巴尔内亚'
+,'阿吉特 多瓦尔'
+,'亚历山大 瓦西里伊奇 什利亚科特里夫'
+,'瓦西里 格里察克'
+,'布鲁诺 卡尔'
+,'安杰伊 杜达'
+,'阿卜杜拉 艾哈迈德 沙阿'
+,'佐科 维多多'
+,'玛哈 哇集拉隆功'
+,'阮春福'
+,'阿里夫 阿尔维'
+,'萨勒曼 本 阿卜杜勒 阿齐兹'
+,'阿亚图拉 赛义德 阿里 哈梅内伊'
+,'巴尔哈姆 萨利赫'
+,'雅伊尔 梅西亚斯 博索纳罗'
+,'阿尔韦托 费尔南德斯'
+,'亚历山大 武契奇'
+,'吉塔纳斯 瑙塞达'
+,'金正恩'
+,'尹锡悦'
+,'塞尔吉奥 马塔雷拉'
+,'威廉 亚历山大'
+,'费利佩六世'
+,'哈莉玛 雅各布'
+,'马泰乌什 莫拉维茨基'
+,'伊斯梅尔 萨布里'
+,'佐科 维多多'
+,'巴育 占奥差'
+,'范明政'
+,'伊姆兰 汗'
+,'萨勒曼 本 阿卜杜勒 阿齐兹'
+,'易卜拉欣 莱希'
+,'穆斯塔法 卡迪米'
+,'欧尼西奥 奥利维拉'
+,'加夫列拉 米切蒂'
+,'阿娜 布尔纳比奇'
+,'因格丽达 希莫尼特'
+,'金德勋'
+,'金富谦'
+,'马里奥 德拉吉'
+,'马克 吕特'
+,'佩德罗 桑切斯'
+,'李显龙'
+,'加夫列尔 博里奇'
+,'佩德罗 卡斯蒂略'
+,'安德烈斯 曼努埃尔 洛佩斯 奥夫拉多尔'
+,'乌赫那 呼日勒苏赫'
+,'阿卜杜 拉布 曼苏尔 哈迪'
+,'阿什拉夫 加尼'
+,'哈利法 本 扎耶德 阿勒纳哈扬'
+,'诺罗敦 西哈莫尼'
+,'通伦 西苏里'
+,'尼古拉斯 马杜罗 莫罗斯'
+,'米格尔 迪亚斯 卡内尔 贝穆德斯'
+,'卡尔十六世 古斯塔夫'
+,'米洛什 泽曼'
+,'玛格丽特二世'
+,'哈拉尔五世'
+,'绍利 尼尼斯托'
+,'卡特里娜 萨克拉罗普卢'
+,'卡塔林 诺瓦克'
+,'迈克尔 希金斯'
+,'菲利普 利奥波德 路易 马里'
+,'马塞洛 雷贝洛 德索萨'
+,'苏珊娜 恰普托娃'
+,'穆罕默德 阿卜杜拉希 穆罕默德'
+,'穆罕默杜 布哈里'
+,'阿卜杜勒 法塔赫 塞西'
+,'马塔梅拉 西里尔 拉马福萨']
+):
+    try:
+        sl = wikipedia.search(x)
+        sleep(9)
+        print(sl)
+        for s in sl:
+            try:
+                pg = wikipedia.page(s)
+                sleep(9)
+                with open(r'D:/20220414_wk/' + path_cleaner(x) + r'.json'
+                          ,'a'
+                          ,encoding='utf8'
+                          ) as f:
+                    dump({'title': cc.convert(s)
+                          ,'abstract': cc.convert(pg.summary)
+                          ,'text': cc.convert(pg.content)
+                        }
+                         ,fp = f
+                         ,ensure_ascii=False)
+                    print(''
+                          ,file=f)
+            except Exception as e:
+                print(str(e))
+                continue
+    except Exception as e:
+        print(str(e))
+        continue
