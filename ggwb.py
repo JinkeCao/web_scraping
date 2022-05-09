@@ -151,57 +151,59 @@ cc = opencc.OpenCC('t2s')
 # https://www.google.com/search?q=f+16+fighting+falcon&tbm=nws&start=10
 # https://www.google.com/search?q=site:zh.wikipedia.org+%E7%BD%97%E5%BE%B7%E9%87%8C%E6%88%88+%E6%9D%9C%E7%89%B9%E5%B0%94%E7%89%B9&start=10
     
-
-for q2 in ('抗议事件', '抗议活动', '示威', '游行', '镇压', '暴力事件', '骚乱'):
-    for st in range(0, 100, 10):
-        for q1 in ('www.dw.com', 'www.people.com.cn', 'www.epochtimes.com'):
-            print(q2, st)
-            try:
-                dt = {'q': 'site:' + q1 + ' ' + q2
-                      # ,'tbm': 'nws'
-                      ,'start': st
-                      }
-                link = r'https://www.google.com.hk/search?' + urlencode(dt)
-                
-                bso = timered_link2bso(link)
-                # if r'”相关的新闻。' in bso.get_text() and r'未搜到与“' in bso.get_text():
-                # if '下一页' not in bso.get_text(): break
-                # for b in bso.find_all('div', class_='yuRUbf'):
-                for b in bso.find_all('div', class_='g tF2Cxc'):
-                    try:
-                        # print(b.find('a')['href'])
-                        # title = [x for x in b.stripped_strings]
-                        g = b.get_text()
-                        title = g.split('http')[0]
-                        abstract = g.split('网页快照')[-1]                        
-                        bs = timered_link2bso(b.find('a')['href'])
-                        content = [cc.convert(x) for x in bs.stripped_strings if len(x) > 4 and is_chinese(x)]
-
-                        # ss1 = bs.find('h1', class_='firstHeading mw-first-heading').get_text()
-                        # ss2 = ' '.join([x for x in bs.find('div', class_='mw-body-content mw-content-ltr').stripped_strings])#.get_text()#.replace(u'\xa0','')
-                        with open(r'D:/20220505_ggwb/' + q2 + '-' + q1 + r'.json'
-                                  ,'a'
-                                  ,encoding='utf8'
-                                  ) as f:
-                            dump({'kw': q2
-                                   ,'link': q1
-                                   ,'title':cc.convert(title)
-                                   ,'abstract': cc.convert(abstract)                       
-                                   ,'content': content
-                                  }
-                                  ,fp = f
-                                  ,ensure_ascii=False
-                                 
-                                )
-                            print(''
-                                  ,file=f)
-                    except Exception as e:
-                        print('innner:', str(e))
-                        pass
-                if '下一页' not in bso.get_text():
-                    sleep(9)
-                    break
-            except Exception as e:
-                print('outer:', str(e))
-                pass
+wb = {'www.ifnews.com':1
+      , 'www.cb.com.cn':1
+      , 'www.people.com.cn':1
+      , 'www.ftchinese.com':1}
+for q2 in ('冻结外国资产', '金融寡头制裁', '货币制裁', 'SWIFT制裁'):
+    for st in range(0, 500, 10):
+        for q1 in wb:
+            if wb[q1] == 1:
+                try:
+                    dt = {'q': 'site:' + q1 + ' ' + q2
+                          # ,'tbm': 'nws'
+                          ,'start': st
+                          }
+                    link = r'https://www.google.com/search?' + urlencode(dt)
+                    
+                    bso = timered_link2bso(link)
+                    # if r'”相关的新闻。' in bso.get_text() and r'未搜到与“' in bso.get_text():
+                    # if '下一页' not in bso.get_text(): break
+                    # for b in bso.find_all('div', class_='yuRUbf'):
+                    for b in bso.find_all('div', class_='g tF2Cxc'):
+                        try:
+                            # print(b.find('a')['href'])
+                            # title = [x for x in b.stripped_strings]
+                            g = b.get_text()
+                            title = g.split('http')[0]
+                            abstract = g.split('网页快照')[-1]                        
+                            bs = timered_link2bso(b.find('a')['href'])
+                            content = [cc.convert(x) for x in bs.stripped_strings if len(x) > 4 and is_chinese(x)]
+    
+                            # ss1 = bs.find('h1', class_='firstHeading mw-first-heading').get_text()
+                            # ss2 = ' '.join([x for x in bs.find('div', class_='mw-body-content mw-content-ltr').stripped_strings])#.get_text()#.replace(u'\xa0','')
+                            with open(r'D:/20220506_ggwb/' + q2 + '-' + q1 + r'.json'
+                                      ,'a'
+                                      ,encoding='utf8'
+                                      ) as f:
+                                dump({'kw': q2
+                                       ,'link': q1
+                                       ,'title':cc.convert(title)
+                                       ,'abstract': cc.convert(abstract)                       
+                                       ,'content': ' '.join(content)
+                                      }
+                                      ,fp = f
+                                      ,ensure_ascii=False
+                                     
+                                    )
+                                print(''
+                                      ,file=f)
+                        except Exception as e:
+                            print('innner:', str(e))
+                            pass
+                    if '下一页' not in bso.get_text():
+                        wb[q1] = 0
+                except Exception as e:
+                    print('outer:', str(e))
+                    pass
     
